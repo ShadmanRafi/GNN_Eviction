@@ -1,0 +1,15 @@
+dgl==2.4.0+cu121
+numpy==1.26.4
+opengsl==0.0.55
+pandas==3.0.3
+pyro-api==0.1.2
+pyro-ppl==1.9.1
+scikit-learn==1.8.0
+scipy @ file:///home/conda/feedstock_root/build_artifacts/scipy-split_1771879143720/work/dist/scipy-1.17.1-cp311-cp311-linux_x86_64.whl#sha256=f015f9f22d3862e43fde9957ff53c8c012eaed642484f10b48295cd9d85ab732
+torch==2.1.2+cu121
+torch-geometric==2.7.0
+torch-scatter==2.1.2+pt21cu121
+torch-sparse==0.6.18+pt21cu121
+torchaudio==2.1.2+cu121
+torchvision==0.16.2+cu121
+
