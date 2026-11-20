@@ -55,14 +55,15 @@ pip install -r requirements_rgcn.txt
 ## Experimental Set-Up
 All experiments (GSL baselines and R-GCN variants) share the same training protocol to ensure a fair comparison. 
 
-All models are trained with the Adam optimizer ([Kingma & Ba, 2014](https://arxiv.org/abs/1412.6980)) at learning rate of `1e-3` and weight decay of `5e-4$`. Training runs for up to 200 epochs, and the model weights at the epoch of lowest validation Mean Squared Error (MSE) are restored before test evaluation. MSE is the training loss for all methods. All graphs are built separately for the training and test node sets, using only the features or spatial geometries of tracts in that split. The validation graph is built similarly from validation-only tracts, with no edges crossing split boundaries.
+All models are trained with the Adam optimizer ([Kingma & Ba, 2014](https://arxiv.org/abs/1412.6980)) at learning rate of `1e-3` and weight decay of `5e-4`. Training runs for up to 200 epochs, and the model weights at the epoch of lowest validation Mean Squared Error (MSE) are restored before test evaluation. MSE is the training loss for all methods. All graphs are built separately for the training and test node sets, using only the features or spatial geometries of tracts in that split. The validation graph is built similarly from validation-only tracts, with no edges crossing split boundaries.
 
 All methods (GSL baselines as well as R-GCN variants) use a two-layer Graph Convolutional Network ([Kipf & Welling, 2017](https://arxiv.org/abs/1609.02907)) as the GNN backbone, with hidden dimension 64, dropout p = 0.5 between layers, and a scalar linear output layer for regression. The layer-l update rule is 
+
 $$
 H^{(\ell+1)} = \sigma\left(\tilde{D}^{-\frac{1}{2}} \tilde{A} \tilde{D}^{-\frac{1}{2}} H^{(\ell)} W^{(\ell)}\right), \qquad  \tilde{A} = A + I
 $$
 
-GSL baselines are implemented using the OpenGSL library(https://github.com/OpenGSL/OpenGSL), which approximates each method's graph-learning mechanism through a unified three-component interface (metric, post-processing, fusion). This ensures architectural and training-protocol equivalence across all baselines. Each GSL baseline wraps a graph-learning module around the shared GCN backbone. The module receives the input cosine-kNN adjacency and produces a refined adjacency, which is symmetrically normalized and passed to the GCN. The GCN and graph-learner parameters are optimized jointly. Table~\ref{tab:gsl_configs} summarizes the learner configuration for each method using the OpenGSL modular interface. 
+GSL baselines are implemented using the OpenGSL library(https://github.com/OpenGSL/OpenGSL), which approximates each method's graph-learning mechanism through a unified three-component interface (metric, post-processing, fusion). This ensures architectural and training-protocol equivalence across all baselines. Each GSL baseline wraps a graph-learning module around the shared GCN backbone. The module receives the input cosine-kNN adjacency and produces a refined adjacency, which is symmetrically normalized and passed to the GCN. The GCN and graph-learner parameters are optimized jointly. The table below summarizes the learner configuration for each method using the OpenGSL modular interface. 
 
 We  report the eight OpenGSL methods whose learner components are directly compatible with a continuous target. Additionally, GGSL is not one of the methods evaluated in the original OpenGSL benchmark, but it was added later to the OpenGSL library as a general purpose implementation of graph structure learning rather than a reproduction of a peer-reviewed algorithm. We report it as an additional graph structure learning method with our used configuration. 
 
@@ -81,7 +82,7 @@ Each configuration is trained with five random seeds, each controlling model ini
 | GLCN       | -            | OneLayerNN      | -                | Interp(0.8, 0.2) |
 | GGSL       | GCN (2L)     | Cosine          | KNN (k=10)       | Interp(0.5, 0.5) |
  
-*Interp($\alpha$, $\beta$) = Interpolate($\alpha \times$ learned, $\beta \times$ original).*
+*Interp($\alpha, \beta$) = Interpolate($\alpha \times$ learned, $\beta \times$ original).*
 
 
 ## Reproducibility
